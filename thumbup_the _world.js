@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      1.1
+// @version      1.2
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
@@ -15,15 +15,31 @@
     console.log("Does BiliBili know that I have a UserScript on him?")
     // alert("Fuck you.")
     // Your code here...
-    const myInterval = setInterval(thumbUp, 1000);
+    const targetNode = document.querySelector("span[class='like']");
 
-    function thumbUp() {        
-        if (document.querySelector("span[class='like on']") === null) {
-            console.log("Ready to thumbup.");
-            document.querySelector("span[class='like']").click();
-        } else {
-            console.log("Already thumbup.");
-            clearInterval(myInterval)
-        }
+    const config = {attribute: true, childList: true, subtree: true};
+
+    const callback = (mutationList, observer) => {
+        // mutationList.array.forEach(element => {
+            mutationList.forEach(mutation => {
+                mutation.click();
+        });
     }
+    const observer = new MutationObserver(callback);
+
+    observer.observe(targetNode, config);
+
+
+
+    // const myInterval = setInterval(thumbUp, 1000);
+
+    // function thumbUp() {        
+    //     if (document.querySelector("span[class='like on']") === null) {
+    //         console.log("Ready to thumbup.");
+    //         document.querySelector("span[class='like']").click();
+    //     } else {
+    //         console.log("Already thumbup.");
+    //         clearInterval(myInterval)
+    //     }
+    // }
 })();
