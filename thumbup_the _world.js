@@ -4,8 +4,8 @@
 // @version      0.1
 // @description  try to smell my feet.
 // @author       One Good Bob
-// @match        *://*netflix*.*
-// @icon         https://yanetflix.com/favicon.ico
+// @match        https://www.bilibili.com/video/*
+// @icon         https://static.hdslb.com/images/base/icons.png
 // @grant        none
 // @license      GPL-3.0-only
 // ==/UserScript==
@@ -15,6 +15,8 @@
 
     // Your code here...
     document.addEventListener('DOMContentLoaded', () => {
-        
+        if (document.querySelector("span[class='like on']") !== null) {
+            document.querySelector("span[class='like']").click()
+        }
     })
 })();
