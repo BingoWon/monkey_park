@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      0.7
+// @version      0.8
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
@@ -12,7 +12,8 @@
 
 (function() {
     'use strict';
-
+    console.log("Does BiliBili know that I have a UserScript on him?")
+    alert("Fuck you.")
     // Your code here...
     document.addEventListener('DOMContentLoaded', function() {
         alert('Does it work?');
