@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      0.5
+// @version      0.6
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
