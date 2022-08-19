@@ -1,1 +1,1 @@
-alter("Wow");
+alter("Wow, HaHa");
