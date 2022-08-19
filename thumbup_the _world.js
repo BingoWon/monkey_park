@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      1.0
+// @version      1.1
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
@@ -21,9 +21,9 @@
         if (document.querySelector("span[class='like on']") === null) {
             console.log("Ready to thumbup.");
             document.querySelector("span[class='like']").click();
-            clearInterval(myInterval)
         } else {
             console.log("Already thumbup.");
+            clearInterval(myInterval)
         }
     }
 })();
