@@ -15,6 +15,7 @@
 
     // Your code here...
     document.addEventListener('DOMContentLoaded', () => {
+        alert('Does it work?');
         if (document.querySelector("span[class='like on']") === null) {
             console.log("Ready to thumbup.");
             document.querySelector("span[class='like']").click();
