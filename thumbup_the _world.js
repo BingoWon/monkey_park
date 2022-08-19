@@ -16,7 +16,10 @@
     // Your code here...
     document.addEventListener('DOMContentLoaded', () => {
         if (document.querySelector("span[class='like on']") === null) {
-            document.querySelector("span[class='like']").click()
+            console.log("Ready to thumbup.");
+            document.querySelector("span[class='like']").click();
+        } else {
+            console.log("Already thumbup.");
         }
-    })
+    });
 })();
