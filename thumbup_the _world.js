@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      1.2
+// @version      1.3
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
@@ -22,6 +22,7 @@
     const callback = (mutationList, observer) => {
         // mutationList.array.forEach(element => {
             mutationList.forEach(mutation => {
+                console.log("Detect thumbup btn. will try to click on it.")
                 mutation.click();
         });
     }
