@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bob's UserScript
 // @namespace    OIJ.CC
-// @version      0.6
+// @version      0.7
 // @description  try to smell my feet.
 // @author       One Good Bob
 // @match        https://www.bilibili.com/video/*
@@ -14,7 +14,7 @@
     'use strict';
 
     // Your code here...
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
         alert('Does it work?');
         if (document.querySelector("span[class='like on']") === null) {
             console.log("Ready to thumbup.");
