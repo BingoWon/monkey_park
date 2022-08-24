@@ -2,15 +2,17 @@ function aclean(arr) {
   let result = [];
 
   const mappingSheet = arr.reduce( (mappingSheet, str) => {
-    mappingSheet.set(str, strToMap(str));
+    return mappingSheet.set(str, strToMap(str.toUpperCase()));
   }, new Map() );
+
+  // console.log(mappingSheet);
 
   while ( arr.length > 0 ) {
     let selectedArr = [];
     // for ( let str of arr ) {
     arr.slice().forEach( (newStr, index) => {
-        console.log(`${newStr}|||||| ${selectedArr} |||||${((index === 0) || (shouldSelect(selectedArr, newStr)))}`)
-        if ((index === 0) || (shouldSelect(selectedArr, newStr))) {
+        // console.log(`${newStr}|||||| ${selectedArr} |||||${((index === 0) || (shouldSelect(selectedArr, newStr, mappingSheet)))}`)
+        if ((index === 0) || (shouldSelect(selectedArr, newStr, mappingSheet))) {
         // 当应该添加到被选择的数组中时，别忘记从原数组中删掉。
         selectedArr.push(newStr);
         arr.splice(arr.indexOf(newStr), 1);
@@ -35,23 +37,24 @@ function strToMap(str) {
 function checkSameMap(mapA, mapB) {
   if (mapA.size !== mapB.size) return false;
 
-  for ( let entry of mapA) {
-    let key = entry[0];
-    let value = entry[1];
+  for ( let entry of mapA ) {
+    const [key, value] = entry;
+    // let value = entry[1];
     // if ( !mapB.has(key) ) return false;
-    console.log(`${mapB.get(key)},,,${value}`);
+    // console.log(`${mapB.get(key)},,,${value}`);
     if ( mapB.get(key) !== value ) return false;
   };
 
   return true;
 }
 
-function shouldSelect(selectedArr, newStr) {
+function shouldSelect(selectedArr, newStr, mappingSheet) {
   for (let selectedStr of selectedArr) {
     // console.log(strToMap(selectedStr.toUpperCase()));
     // console.log(strToMap(newStr.toUpperCase()));
     // console.log(checkSameMap(strToMap(selectedStr.toUpperCase()), strToMap(newStr.toUpperCase())));
-    if ( checkSameMap(strToMap(selectedStr.toUpperCase()), strToMap(newStr.toUpperCase())) ) return false;
+    // console.log(mappingSheet);
+    if ( checkSameMap(mappingSheet.get(selectedStr), mappingSheet.get(newStr)) ) return false;
   };
   return true;
 }
