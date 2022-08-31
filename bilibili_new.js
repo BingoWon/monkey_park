@@ -15,13 +15,14 @@ console.log("Bob's coming.");
 
 // 记录当前网页网址为undefined（当然需要是全局变量），使得后面刚打开网页也能认作是网址（标题）变化，需要检查点赞情况。
 let webUrl;
+let videoUid, likedSelector, notLikedSelector;
+let timerIdArr = [];
 // 页面全部加载完成后 就要运行一次检查等。
 window.onload = () => {
   console.log("Bob detected Page fully loaded.");
   titleChangedCallback();
 };
 
-let videoUid, likedSelector, notLikedSelector, timerId;
 // 之后监控网页的title变化。
 const observer = new MutationObserver(titleChangedCallback);
 
@@ -72,7 +73,8 @@ function titleChangedCallback() {
     // 因为涉及到网页交互，有可能出现未能点赞成功的情况；为了容错，这里设置“循环”尝试点赞；在Promise中确认点赞成功后，将会退出这个循环的定时操作。
     // 这里有概率会出错，尤其是在切换网页的时候，报错为：Timer 'worker' already exists，虽然报错位置不在本脚本内，而且这个报错也会不定时出现，但总觉得有关联。/////////////////////////////////////
     console.log("在setInterval前");
-    timerId = setInterval(makePromise, 3000);
+    const timerId = setInterval(makePromise, 3000);
+    timerIdArr.push(timerId);
     console.log("在setInterval后");
   }
 }
@@ -118,7 +120,9 @@ function makePromise() {
     // 如果检查了该视频已经被点赞了 或刚刚点赞成功了，就记录到localStorage，以后就可以跳过网页元素检查（只有第一次会有这种情况）。
     .then(() => {
       // 结束循环的定时操作。
-      clearInterval(timerId);
+      // clearInterval(timerId);
+      timerIdArr.forEach((timerId) => clearInterval(timerId));
+      timerIdArr.length = 0;
       localStorage.setItem("Bob_" + videoUid, true);
       console.log("Bob has liked this video successfully.");
     })
