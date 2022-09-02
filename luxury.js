@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name        New script - a.luxury
-// @namespace   Violentmonkey Scripts
+// @name        几鸡自动登录签到 https://b.luxury/waf/aXQtul56gdir2PEp2
+// @namespace   OIJ.CC
 // @match       http://*.luxury/*
 // @grant       none
 // @version     1.0
@@ -9,9 +9,9 @@
 // ==/UserScript==
 
 
-// window.onload = () => console.log("Fully Loaded!");
 const url = window.location.href;
 console.log(url);
+// 2022年9月1日发现：一般情况 登录成功后是跳转一个新页面到用户首页（重新触发onload事件），但也有概率没有跳转（没有重新触发onload事件）。
 window.onload = (url === "http://a.luxury/signin") ? autoLogin : autoCheckin;
 
 function autoLogin() {
@@ -46,15 +46,19 @@ function autoCheckin() {
                 console.log("点击弹窗按钮完成。");
             }, 2000);
         })
-        .then(waitForBtn("div.leftbuttonwraps div:nth-last-child(1) a#succedaneum")
-            .then((btnElem) => {
+        .then(() => {
+            // 未签到时显示为“签到流量”，已签到时显示为“”。
+            if (document.querySelector("div.leftbuttonwraps div:nth-last-child(1) a#succedaneum").innerHTML != "签到流量") return;
+            waitForBtn("div.leftbuttonwraps div:nth-last-child(1) a#succedaneum")
+                .then((btnElem) => {
 
-                console.log("点击签到按钮开始。");
-                setTimeout(() => {
-                    btnElem.click();
-                    console.log("点击签到按钮完成。");
-                }, 2000);
-            }));
+                    console.log("点击签到按钮开始。");
+                    setTimeout(() => {
+                        btnElem.click();
+                        console.log("点击签到按钮完成。");
+                    }, 2000);
+                })
+        })
 }
 
 function myInput(selector, str) {
