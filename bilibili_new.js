@@ -24,11 +24,11 @@
   */
   // 其实下面可以只是一个Array，至于为什么要转换为Set，有待解释。
   const websiteSet = new Set([{
-    regExp: new RegExp("^https://www.bilibili.com/video/(\\w+)\\b"),  // B站普通视频。
+    regExp: new RegExp("^https://www\\.bilibili\\.com/video/(\\w+)\\b"),  // B站普通视频。
     likedSelector: "span.like.on",
     notLikedSelector: "span.like",
   }, {
-    regExp: new RegExp("^https://www.bilibili.com/bangumi/play/(\\w+)\\b"),   // B站番剧。
+    regExp: new RegExp("^https://www\\.bilibili\\.com/bangumi/play/(\\w+)\\b"),   // B站番剧。
     likedSelector: "div.like-info.active",
     notLikedSelector: "div[class='like-info']",   // 这里就是要用这样特别的方法来定位class，如果写作div.like-info，则likedSelector也符合这个Selector，容错考虑。
   }, {
@@ -48,7 +48,8 @@
     constructor() {
       const json = localStorage.getItem(this.key);
       // 多次实验和查阅发现：JS基本不支持将map转换为json（实测中 Bilibili是支持的，但Youtube不支持，转换为的JSON为一个空的Object），所以我们直接用的一个Object。
-      this.recordsObj = JSON.parse(json);
+      // 如果是浏览器第一次运行该脚本，或者使用隐私无痕模式，则需要应为null情况。
+      this.recordsObj = JSON.parse(json) ?? {};
     }
 
     hasRecord(videoUid) {
@@ -94,9 +95,11 @@
     // 发现了指定元素（这里无需传入需要监控的元素）发生变化。
     console.log('Title changed!!!!!!!');
     // 开始尝试获取当前页面视频的uid，如果拿不到返回的是undefined，要单独拿出来判断，因为初始的lastVideoUid也是undefined。
-    currentVideoUid = indentifyWeb();
+    const currentVideoUid = indentifyWeb();
     if ((currentVideoUid) && (currentVideoUid !== lastVideoUid)) {
       console.log(`检查到网页的uid更新为：${currentVideoUid}`);
+      // TODO：在后面进行点赞、检查和记录日志的过程中，也应该确保lastVideoUid不变（或者暂停此方法的运行）。
+      // TODO：不过或许也应该时刻监测网页的uid是否变动，如果变动也应该立刻停止继续操作；或者在继续点赞的时候要二次确认是不是同一个uid。
       lastVideoUid = currentVideoUid;
       // 到localStorage检查是这个视频是否已经处理过了，如果已经有成功的处理记录（即便显示为未点赞），需要跳过。
       if (operateLocalStorage.hasRecord(currentVideoUid)) return;
@@ -104,6 +107,7 @@
       // 视频没有点赞，现在操作点赞。
       // 因为涉及到网页交互，有可能出现未能点赞成功的情况；为了容错，这里设置“循环”尝试点赞；如果在Promise中确认点赞成功后，将会退出这个循环的定时操作。
       // 曾有顾虑多个timer同时操作点赞的情况，这里做了限制：如果有timerId，则不再makePromise。
+      // 实测，B站的ms必须在1秒以上。
       timerId = timerId || setInterval(makePromise, 2000);
     }
   }
