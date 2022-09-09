@@ -18,9 +18,9 @@
 
   /*
       需要区分以下三个站点，他们点赞的网页元素不尽相同，需要区分对待。
-      B站视频的URL sample:https://www.bilibili.com/video/BV1Ja411N7zD?spm_id_from=333.1007.tianma.1-1-1.click&vd_source=b156e07ac063bb4be8dd1dacf8c3a63f
-      B站番剧的URL sample:https://www.bilibili.com/bangumi/play/ss28747?spm_id_from=333.337.0.0
-      Youtube URL sample:https://www.youtube.com/watch?v=JKlr0tyQgzk
+      B站视频的URL sample:https://www.bilibili.com/video/BV1uT4y1P7CX?spm_id_from=333.337
+      B站番剧的URL sample:https://www.bilibili.com/bangumi/play/ep411772?from_spmid=666.25.episode.0
+      Youtube URL sample:https://www.youtube.com/watch?v=dQw4w9WgXcQ
   */
   // 其实下面可以只是一个Array，至于为什么要转换为Set，有待解释。
   const websiteSet = new Set([{
