@@ -1,4 +1,5 @@
 const elem = document.querySelector('span.like');
+// Does it work?
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
